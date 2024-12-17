@@ -1,0 +1,17 @@
+html, body {
+    height: 100%;
+}
+
+.el-tooltip__trigger:focus-visible {
+    outline: unset;
+} 
+ 
+/*或者是下面这个*/
+ 
+ .el-tooltip__trigger:first-child:focus-visible {
+    outline: unset;
+}
+
+.el-dropdown {
+    vertical-align:middle;
+}

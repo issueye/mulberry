@@ -1,0 +1,1185 @@
+definitions:
+  controller.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+    type: object
+  model.DatabaseType:
+    enum:
+    - mysql
+    - postgresql
+    - sqlite
+    - oracle
+    - sqlserver
+    type: string
+    x-enum-varnames:
+    - MySQL
+    - PostgreSQL
+    - SQLite
+    - Oracle
+    - SQLServer
+  model.ScriptLanguage:
+    enum:
+    - javascript
+    - typescript
+    - shell
+    type: string
+    x-enum-varnames:
+    - JavaScript
+    - TypeScript
+    - Shell
+  model.TaskType:
+    enum:
+    - script
+    - http
+    type: string
+    x-enum-varnames:
+    - ScriptTask
+    - HTTPTask
+  model.User:
+    properties:
+      avatar:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      nick_name:
+        type: string
+      password:
+        type: string
+      remark:
+        type: string
+      updated_at:
+        type: string
+      userRole:
+        allOf:
+        - $ref: '#/definitions/model.UserRole'
+        description: 一个操作员只能有一个角色
+      username:
+        type: string
+    type: object
+  model.UserRole:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      role_code:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  requests.CreateDatabase:
+    properties:
+      created_at:
+        type: string
+      database:
+        type: string
+      db_type:
+        $ref: '#/definitions/model.DatabaseType'
+      host:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+      path:
+        type: string
+      port:
+        type: integer
+      schema:
+        type: string
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+  requests.CreateTask:
+    properties:
+      client_auth_id:
+        description: 客户端ID， 随机 32 位字符串
+        type: string
+      created_at:
+        type: string
+      cron_expression:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      last_execution_time:
+        type: string
+      name:
+        type: string
+      next_execution_time:
+        type: string
+      script_content:
+        type: string
+      script_language:
+        allOf:
+        - $ref: '#/definitions/model.ScriptLanguage'
+        description: 当任务类型是脚本时，以下字段有效
+      status:
+        type: integer
+      task_type:
+        $ref: '#/definitions/model.TaskType'
+      updated_at:
+        type: string
+    type: object
+  requests.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  requests.QueryClient:
+    properties:
+      is_hidden:
+        description: 0 不隐藏 1 隐藏
+        type: integer
+      keywords:
+        description: 关键词
+        type: string
+    type: object
+  requests.QueryDatabaseInfo:
+    properties:
+      keywords:
+        description: 关键词
+        type: string
+    type: object
+  requests.QueryTask:
+    properties:
+      is_hidden:
+        description: 0 不隐藏 1 隐藏
+        type: integer
+      keywords:
+        description: 关键词
+        type: string
+    type: object
+  requests.SaveCode:
+    properties:
+      code:
+        type: string
+      id:
+        type: integer
+    type: object
+  requests.Settings:
+    properties:
+      group:
+        type: string
+      key:
+        type: string
+      value:
+        type: string
+    required:
+    - group
+    - key
+    - value
+    type: object
+  requests.UpdateClient:
+    properties:
+      client_auth_id:
+        description: 客户端认证ID
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        description: 名称
+        type: string
+      pid:
+        description: 进程ID
+        type: integer
+      remark:
+        description: 备注
+        type: string
+      start_at:
+        description: 开启客户端时间
+        type: string
+      status:
+        description: 状态
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  requests.UpdateDatabaseInfo:
+    properties:
+      created_at:
+        type: string
+      database:
+        type: string
+      db_type:
+        $ref: '#/definitions/model.DatabaseType'
+      host:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+      path:
+        type: string
+      port:
+        type: integer
+      schema:
+        type: string
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+  requests.UpdateTask:
+    properties:
+      client_auth_id:
+        description: 客户端ID， 随机 32 位字符串
+        type: string
+      created_at:
+        type: string
+      cron_expression:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      last_execution_time:
+        type: string
+      name:
+        type: string
+      next_execution_time:
+        type: string
+      script_content:
+        type: string
+      script_language:
+        allOf:
+        - $ref: '#/definitions/model.ScriptLanguage'
+        description: 当任务类型是脚本时，以下字段有效
+      status:
+        type: integer
+      task_type:
+        $ref: '#/definitions/model.TaskType'
+      updated_at:
+        type: string
+    type: object
+  response.Auth:
+    properties:
+      id:
+        type: integer
+      token:
+        type: string
+      user:
+        type: string
+    type: object
+  response.Settings:
+    properties:
+      group:
+        type: string
+      key:
+        type: string
+      value:
+        type: string
+    required:
+    - value
+    type: object
+info:
+  contact: {}
+  description: golang 定时任务调度服务系统v1.0
+  title: 定时任务调度服务系统v1.0
+  version: V1.1
+paths:
+  /api/v1/admin/homeCount:
+    get:
+      description: 数据统计
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            allOf:
+            - $ref: '#/definitions/controller.Response'
+            - properties:
+                Data:
+                  $ref: '#/definitions/model.User'
+              type: object
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 数据统计
+      tags:
+      - 主页
+  /api/v1/admin/updatepassword:
+    post:
+      description: 更新用户密码
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新用户密码
+      tags:
+      - 用户
+  /api/v1/admin/updateuserinfo:
+    post:
+      description: 更新用户信息
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            allOf:
+            - $ref: '#/definitions/controller.Response'
+            - properties:
+                Data:
+                  $ref: '#/definitions/model.User'
+              type: object
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新用户信息
+      tags:
+      - 用户
+  /api/v1/admin/upload:
+    post:
+      description: 上传文件
+      parameters:
+      - description: 用户名、密码
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requests.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            allOf:
+            - $ref: '#/definitions/controller.Response'
+            - properties:
+                Data:
+                  $ref: '#/definitions/response.Auth'
+              type: object
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      summary: 上传文件
+      tags:
+      - 基础接口
+  /api/v1/admin/userInfo:
+    get:
+      description: 获取用户信息
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            allOf:
+            - $ref: '#/definitions/controller.Response'
+            - properties:
+                Data:
+                  $ref: '#/definitions/model.User'
+              type: object
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取用户信息
+      tags:
+      - 用户
+  /api/v1/auth/login:
+    post:
+      description: 用户登录
+      parameters:
+      - description: 用户名、密码
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/requests.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            allOf:
+            - $ref: '#/definitions/controller.Response'
+            - properties:
+                Data:
+                  $ref: '#/definitions/response.Auth'
+              type: object
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      summary: 用户登录
+      tags:
+      - 基础接口
+  /api/v1/auth/logout:
+    get:
+      description: 退出登录
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 退出登录
+      tags:
+      - 基础接口
+  /api/v1/auth/refresh:
+    get:
+      description: 刷新Token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            allOf:
+            - $ref: '#/definitions/controller.Response'
+            - properties:
+                Data:
+                  $ref: '#/definitions/response.Auth'
+              type: object
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 刷新Token
+      tags:
+      - 基础接口
+  /api/v1/menu/catalog:
+    get:
+      description: 获取一级菜单列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取一级菜单列表
+      tags:
+      - 菜单
+  /api/v1/menu/create:
+    post:
+      description: 创建菜单
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建菜单
+      tags:
+      - 菜单
+  /api/v1/menu/delete:
+    delete:
+      description: 删除菜单
+      parameters:
+      - description: 菜单id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除菜单
+      tags:
+      - 菜单
+  /api/v1/menu/list:
+    get:
+      description: 获取菜单列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取菜单列表
+      tags:
+      - 菜单
+  /api/v1/menu/roleMenus/{code}:
+    get:
+      description: 获取菜单列表
+      parameters:
+      - description: 角色编码
+        in: path
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取菜单列表
+      tags:
+      - 菜单
+  /api/v1/menu/saveRoleMenus/{code}:
+    post:
+      description: 保存角色菜单
+      parameters:
+      - description: 角色编码
+        in: path
+        name: code
+        required: true
+        type: string
+      - description: 菜单id列表
+        in: body
+        name: menus
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 保存角色菜单
+      tags:
+      - 菜单
+  /api/v1/menu/update:
+    put:
+      description: 修改菜单
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 修改菜单
+      tags:
+      - 菜单
+  /api/v1/role/create:
+    post:
+      description: 创建角色
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建角色
+      tags:
+      - 角色
+  /api/v1/role/delete:
+    delete:
+      description: 删除角色
+      parameters:
+      - description: 角色id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除角色
+      tags:
+      - 角色
+  /api/v1/role/list:
+    get:
+      description: 获取角色列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取角色列表
+      tags:
+      - 角色
+  /api/v1/role/update:
+    put:
+      description: 修改角色
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 修改角色
+      tags:
+      - 角色
+  /api/v1/settings/logger:
+    get:
+      description: 日志设置
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            allOf:
+            - $ref: '#/definitions/controller.Response'
+            - properties:
+                Data:
+                  items:
+                    $ref: '#/definitions/response.Settings'
+                  type: array
+              type: object
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 日志设置
+      tags:
+      - 系统设置
+    put:
+      description: 设置日志设置
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/requests.Settings'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 设置日志设置
+      tags:
+      - 系统设置
+  /api/v1/settings/system:
+    get:
+      description: 系统设置
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            allOf:
+            - $ref: '#/definitions/controller.Response'
+            - properties:
+                Data:
+                  items:
+                    $ref: '#/definitions/response.Settings'
+                  type: array
+              type: object
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 系统设置
+      tags:
+      - 系统设置
+    put:
+      description: 设置系统设置
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/requests.Settings'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 设置系统设置
+      tags:
+      - 系统设置
+  /api/v1/task/close:
+    put:
+      description: 关闭客户端
+      parameters:
+      - description: 客户端id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 关闭客户端
+      tags:
+      - 客户端管理
+  /api/v1/task/create:
+    post:
+      description: 添加定时任务信息
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/requests.CreateTask'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 添加定时任务信息
+      tags:
+      - 定时任务管理
+  /api/v1/task/delete:
+    delete:
+      description: 删除定时任务信息
+      parameters:
+      - description: 定时任务id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除定时任务信息
+      tags:
+      - 定时任务管理
+  /api/v1/task/get:
+    get:
+      description: 定时任务详情
+      parameters:
+      - description: 定时任务id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 定时任务详情
+      tags:
+      - 定时任务管理
+  /api/v1/task/list:
+    post:
+      description: 定时任务列表
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/requests.QueryTask'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 定时任务列表
+      tags:
+      - 定时任务管理
+  /api/v1/task/open:
+    put:
+      description: 开启客户端
+      parameters:
+      - description: 客户端id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 开启客户端
+      tags:
+      - 客户端管理
+  /api/v1/task/run/{id}:
+    get:
+      description: 立即执行任务
+      parameters:
+      - description: 定时任务id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 立即执行任务
+      tags:
+      - 定时任务管理
+  /api/v1/task/save_code:
+    put:
+      description: 保存脚本代码
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/requests.SaveCode'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 保存脚本代码
+      tags:
+      - 定时任务管理
+  /api/v1/task/update:
+    put:
+      description: 修改定时任务信息
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/requests.UpdateTask'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 修改定时任务信息
+      tags:
+      - 定时任务管理
+  /api/v1/task/updateStatus/{id}:
+    put:
+      description: 更新任务状态
+      parameters:
+      - description: 定时任务id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新任务状态
+      tags:
+      - 定时任务管理
+  /api/v1/user/create:
+    post:
+      description: 创建用户
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            allOf:
+            - $ref: '#/definitions/controller.Response'
+            - properties:
+                Data:
+                  items:
+                    $ref: '#/definitions/model.User'
+                  type: array
+              type: object
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建用户
+      tags:
+      - 用户
+  /api/v1/user/list:
+    get:
+      description: 获取用户列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取用户列表
+      tags:
+      - 用户
+  /api/v1/user/update:
+    delete:
+      description: 删除用户
+      parameters:
+      - description: 用户id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除用户
+      tags:
+      - 用户
+    put:
+      description: 更新用户信息
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'code: 200 成功'
+          schema:
+            $ref: '#/definitions/controller.Response'
+        "500":
+          description: 错误返回内容
+          schema:
+            $ref: '#/definitions/controller.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新用户信息
+      tags:
+      - 用户
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

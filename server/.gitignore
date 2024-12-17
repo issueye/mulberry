@@ -1,0 +1,7 @@
+runtime
+*.exe
+root
+vendor
+*.log
+*.dll
+bin
