@@ -1,1 +1,0 @@
-go build -ldflags="-s -w" -o bin/client.exe ./cmd/client/main.go
