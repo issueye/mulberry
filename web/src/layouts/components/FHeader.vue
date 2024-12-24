@@ -1,6 +1,7 @@
 <template>
   <div
-    class="h-[60px] flex items-center bg-indigo-700 text-light-50 fixed top-0 left-0 right-0"
+    class="flex items-center bg-indigo-700 text-light-50 fixed top-0 left-0 right-0"
+    :style="{ height: global.CARAMBOLA_HEADER_HEIGHT }"
   >
     <!-- 这段代码会显示一个带图标的 Logo，图标和文字会根据应用的样式进行调整，例如增加右边距等。图标组件 <eleme-filled /> 显示一个“饿了么”风格的填充图标，文字 学习编程 显示应用的名称。 -->
     <span
@@ -14,17 +15,19 @@
 
     <!-- 这段代码实现了点击图标切换侧边栏宽度的功能，并根据宽度状态切换不同的图标： -->
     <el-icon
-      class="h-[60px] w-[42px] flex justify-center items-center text-xl font-thin text-white hover:bg-indigo-600"
+      class="w-[42px] flex justify-center items-center text-xl font-thin text-white hover:bg-indigo-600"
+      :style="{ height: global.CARAMBOLA_HEADER_HEIGHT }"
       @click="userStore.handleAsideWidth"
     >
-      <fold v-if="userStore.asideWidth === '250px'" />
+      <fold v-if="userStore.asideWidth === global.CARAMBOLA_MENU_WIDTH" />
       <Expand v-else />
     </el-icon>
 
     <!-- 这个代码创建了一个带有“刷新”功能的图标按钮，当用户将鼠标悬停在按钮上时，会显示提示文字“刷新”，并且按钮在被点击时会触发 handleRefresh 方法，通常用于刷新页面或数据。 -->
     <el-tooltip effect="dark" content="刷新" placement="bottom">
       <el-icon
-        class="h-[60px] w-[42px] flex justify-center items-center text-xl font-thin text-white hover:bg-indigo-600"
+        class="w-[42px] flex justify-center items-center text-xl font-thin text-white hover:bg-indigo-600"
+        :style="{ height: global.CARAMBOLA_HEADER_HEIGHT }"
         @click="handleRefresh"
       >
         <refresh />
@@ -35,7 +38,8 @@
     <div class="ml-auto flex items-center">
       <el-tooltip effect="dark" content="全屏" placement="bottom">
         <el-icon
-          class="h-[60px] w-[42px] flex justify-center items-center text-xl font-thin text-white hover:bg-indigo-600"
+          class="w-[42px] flex justify-center items-center text-xl font-thin text-white hover:bg-indigo-600 mr-1"
+          :style="{ height: global.CARAMBOLA_HEADER_HEIGHT }"
           @click="toggle"
         >
           <full-screen v-if="!isFullscreen" />
@@ -141,6 +145,7 @@ import { useRepassword, useLogout } from "~/composables/useManager";
 import { useUserStore } from "~/store";
 import { toast } from "~/composables/util";
 import { uploadAvatar, updateUserInfo } from "~/api/user"; // 新增的 API 函数
+import { global } from "~/init/global";
 
 const userStore = useUserStore();
 

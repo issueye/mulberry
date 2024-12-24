@@ -1,28 +1,33 @@
 <template>
-  <el-container class="h-full">
-    <el-header>
+  <div class="h-full flex flex-col">
+    <div :style="{ height: global.CARAMBOLA_HEADER_HEIGHT }">
       <f-header />
-    </el-header>
-    <el-container>
+    </div>
+    <div
+      class="flex"
+      :style="{ height: `calc(100% - ${global.CARAMBOLA_HEADER_HEIGHT})` }"
+    >
       <el-aside :width="userStore.asideWidth">
         <f-menu></f-menu>
       </el-aside>
-      <el-main>
-        <div class="h-full flex flex-col bg-gray-100">
+      <div
+        class="h-full flex flex-col bg-gray-100"
+        :style="{ width: `calc(100% - ${userStore.asideWidth})` }"
+      >
+        <div>
           <f-tag-list />
-          <div class="h-[calc(100%-56px)] m-3">
-            <router-view v-slot="{ Component }">
-              <transition name="fade">
-                <keep-alive :max="10">
-                  <component :is="Component"></component>
-                </keep-alive>
-              </transition>
-            </router-view>
-          </div>
         </div>
-      </el-main>
-    </el-container>
-  </el-container>
+        <div
+          class="m-3"
+          :style="{
+            height: `calc(100% - ${global.CARAMBOLA_MENU_TABS_TAG_HEIGHT})`,
+          }"
+        >
+          <router-view />
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -30,6 +35,7 @@ import FHeader from "./components/FHeader.vue";
 import FMenu from "./components/FMenu.vue";
 import FTagList from "./components/FTagList.vue";
 import { useUserStore } from "~/store"; // 导入 Pinia store
+import { global } from "~/init/global";
 
 const userStore = useUserStore(); // 使用 Pinia store
 </script>
@@ -37,10 +43,6 @@ const userStore = useUserStore(); // 使用 Pinia store
 <style scoped>
 .el-aside {
   transition: all 0.2s;
-}
-
-.el-main {
-  padding: 0;
 }
 
 .fade-enter-from {

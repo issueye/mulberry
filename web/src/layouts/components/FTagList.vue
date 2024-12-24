@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="f-tag-list bg-gray-100 flex items-center px-2"
-    :style="{ left: userStore.asideWidth }"
-  >
+  <div class="bg-gray-100 flex items-center px-2">
     <el-tabs
       v-model="activeTab"
       type="card"
@@ -50,10 +47,6 @@ const { activeTab, tabList, changeTab, removeTab, handleClose } = useTabList();
 </script>
 
 <style scoped>
-.f-tag-list {
-  height: 44px;
-}
-
 :deep(.el-tabs__header) {
   border: 0 !important;
   @apply mb-0;

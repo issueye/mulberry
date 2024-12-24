@@ -16,7 +16,7 @@ type PortBase struct {
 	PageCount       int    `gorm:"column:page_count;type:int;comment:页面总数;" json:"page_count"`                   // 页面总数
 	RuleCount       int    `gorm:"column:rule_count;type:int;comment:规则总数;" json:"rule_count"`                   // 规则总数
 	GzipFilterCount int    `gorm:"column:gzip_filter_count;type:int;comment:GZIP过滤总数;" json:"gzip_filter_count"` // GZIP过滤总数
-	Mark            string `gorm:"column:mark;size:-1;comment:备注;" json:"mark"`                                  // 备注
+	Remark          string `gorm:"column:remark;size:-1;comment:备注;" json:"remark"`                              // 备注
 }
 
 func (PortInfo) TableName() string { return "ds_port_info" }

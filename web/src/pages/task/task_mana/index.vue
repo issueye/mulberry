@@ -76,6 +76,11 @@
                         >脚本</el-dropdown-item
                       >
                       <el-dropdown-item
+                        :command="{ data: scope.row, type: 'execution_log' }"
+                        class="text-[--el-color-primary]"
+                        >执行记录</el-dropdown-item
+                      >
+                      <el-dropdown-item
                         :command="{ data: scope.row, type: 'switch' }"
                         class="text-[--el-color-primary]"
                         >{{
@@ -167,6 +172,7 @@ import {
   apiRunTask,
 } from "~/api/task";
 import { apiGetClientList } from "~/api/client";
+import { toast } from "~/composables/util";
 
 import { ElMessageBox, ElMessage } from "element-plus";
 
@@ -200,16 +206,6 @@ const columns = [
     attrs: { minWidth: 250, showOverflowTooltip: true },
   },
   { prop: "script_language", label: "脚本语言", attrs: { width: 150 } },
-  {
-    prop: "last_execution_time",
-    label: "上一次执行时间",
-    attrs: { width: 180 },
-  },
-  {
-    prop: "next_execution_time",
-    label: "下一次执行时间",
-    attrs: { width: 180 },
-  },
   {
     prop: "description",
     label: "描述",
@@ -332,7 +328,7 @@ const handleResetQuery = () => {
 };
 
 const handleCommand = (value) => {
-  console.log("value", value.data, value.type);
+  // console.log("value", value.data, value.type);
 
   switch (value.type) {
     case "del": {
@@ -343,6 +339,13 @@ const handleCommand = (value) => {
       taskStore.setTask(value.data);
       // console.log("taskStore", taskStore.task);
       router.push({ name: "script" });
+      break;
+    }
+    case "execution_log": {
+      router.push({
+        name: "task_log",
+        query: { task_id: parseInt(value.data.id) },
+      });
       break;
     }
     case "switch": {
@@ -386,6 +389,7 @@ const handleRunClick = (value) => {
     async () => {
       // 调用接口
       await apiRunTask(value.id);
+      toast("下发运行任务指令成功");
       handleQuery();
     },
     () => {
@@ -403,6 +407,7 @@ const handleSwitchClick = (value) => {
     async () => {
       // 调用接口
       await apiUpdateTaskStatus(value.id);
+      toast("修改任务状态成功，下发指令成功");
       handleQuery();
     },
     () => {
@@ -468,6 +473,7 @@ const addData = async () => {
     await apiAddTask(formData);
     loading.value = false;
     dialog.visible = false;
+    toast("添加定时任务成功");
     handleQuery();
   } catch (error) {
     loading.value = false;
@@ -484,6 +490,7 @@ const editData = async () => {
     await apiUpdateTask(formData);
     loading.value = false;
     dialog.visible = false;
+    toast("修改定时任务成功");
     handleQuery();
   } catch (error) {
     loading.value = false;
@@ -522,6 +529,7 @@ const handleDeleteClick = (value) => {
     async () => {
       // 调用接口
       await apiDeleteTask(value.id);
+      toast("删除定时任务成功");
       handleQuery();
     },
     () => {

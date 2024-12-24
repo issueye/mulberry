@@ -2,6 +2,7 @@ package route
 
 import (
 	adminRoute "carambola/host/app/admin/route"
+	downstreamRoute "carambola/host/app/downstream/route"
 	taskRoute "carambola/host/app/task/route"
 	"carambola/host/common/controller"
 	"carambola/host/global"
@@ -23,6 +24,8 @@ func InitRouter(r *gin.Engine) {
 		adminRoute.Register(v1)
 		// 注册业务路由
 		taskRoute.Register(v1)
+		// 转发服务理由
+		downstreamRoute.Register(v1)
 	}
 
 	r.NoRoute(func(ctx *gin.Context) {

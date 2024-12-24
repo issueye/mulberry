@@ -145,6 +145,7 @@ import { apiGetRoleMenuList, apiSaveRoleMenus } from "~/api/menu";
 import { flatten } from "~/utils/index";
 
 import { ElMessageBox, ElMessage } from "element-plus";
+import { toast } from '~/composables/util'
 
 import { ref, reactive, computed, onMounted } from "vue";
 const queryFormRef = ref();
@@ -360,6 +361,7 @@ const addData = async () => {
     await apiAddRole(formData);
     loading.value = false;
     dialog.visible = false;
+    toast('新增角色成功')
     handleQuery();
   } catch (error) {
     loading.value = false;
@@ -372,6 +374,7 @@ const editData = async () => {
     await apiUpdateRole(formData);
     loading.value = false;
     dialog.visible = false;
+    toast('修改角色成功')
     handleQuery();
   } catch (error) {
     loading.value = false;
@@ -400,6 +403,7 @@ function handleDeleteClick(value) {
   }).then(
     async () => {
       await apiDeleteRole(value.id);
+      toast('删除角色成功')
       handleQuery();
     },
     () => {

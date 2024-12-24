@@ -185,6 +185,7 @@ import {
 } from "~/api/database";
 
 import { ElMessageBox, ElMessage } from "element-plus";
+import { toast } from '~/composables/util'
 
 import { ref, reactive, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
@@ -437,6 +438,7 @@ const addData = async () => {
     await apiAddDB(formData);
     loading.value = false;
     dialog.visible = false;
+    toast('新增数据库信息成功，重启客户端才能使用最新的数据库信息')
     handleQuery();
   } catch (error) {
     loading.value = false;
@@ -453,6 +455,7 @@ const editData = async () => {
     await apiUpdateDB(formData);
     loading.value = false;
     dialog.visible = false;
+    toast('修改数据库信息成功，重启客户端才能使用最新的数据库信息')
     handleQuery();
   } catch (error) {
     loading.value = false;
@@ -484,6 +487,7 @@ const handleDeleteClick = (value) => {
     async () => {
       // 调用接口
       await apiDeleteDB(value.id);
+      toast('移除数据库信息成功')
       handleQuery();
     },
     () => {

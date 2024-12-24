@@ -150,6 +150,7 @@ import {
 } from "~/api/menu";
 
 import { ElMessageBox, ElMessage } from "element-plus";
+import { toast } from '~/composables/util'
 
 import { ref, reactive, computed, onMounted } from "vue";
 
@@ -354,6 +355,7 @@ const addData = async () => {
     await apiAddMenu(formData);
     loading.value = false;
     dialog.visible = false;
+    toast('添加菜单信息成功')
     handleQuery();
   } catch (error) {
     loading.value = false;
@@ -370,6 +372,7 @@ const editData = async () => {
     await apiUpdateMenu(formData);
     loading.value = false;
     dialog.visible = false;
+    toast('修改菜单信息成功')
     handleQuery();
   } catch (error) {
     loading.value = false;
@@ -405,6 +408,7 @@ const handleDeleteClick = (value) => {
     async () => {
       // 调用接口
       await apiDeleteMenu(value.id);
+      toast('删除菜单信息成功')
       handleQuery();
     },
     () => {

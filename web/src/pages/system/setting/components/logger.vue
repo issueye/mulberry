@@ -58,6 +58,7 @@
 import { ref, reactive, onMounted } from "vue";
 
 import { apiGetLoggerSettings, apiSetLoggerSettings } from "~/api/settings";
+import { toast } from '~/composables/util'
 
 const disabled = ref(true);
 
@@ -104,5 +105,6 @@ const handleSubmitClick = async () => {
   ];
 
   await apiSetLoggerSettings(datas);
+  toast('保存成功')
 };
 </script>

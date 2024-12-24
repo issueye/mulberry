@@ -38,3 +38,11 @@ export function apiUpdateTaskStatus(id) {
 export function apiRunTask(id) {
   return axios.get(`/api/v1/task/run/${id}`);
 }
+
+export function apiGetTaskLogList(data) {
+  return axios({
+    url: '/api/v1/task/log/list',
+    method: 'post',
+    data: { ...data }
+  })
+}

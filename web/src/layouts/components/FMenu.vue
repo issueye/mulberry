@@ -7,7 +7,6 @@
       :default-active="defaultActive"
       unique-opened
       :collapse="isCollapse"
-      default-active="2"
       class="border-0"
       @select="handleSelect"
       :collapse-transition="false"
@@ -58,6 +57,7 @@
 import { computed, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useUserStore } from "~/store"; // 导入 Pinia store
+import { global } from "~/init/global";
 
 const router = useRouter();
 const route = useRoute();
@@ -67,7 +67,9 @@ const userStore = useUserStore(); // 使用 Pinia store
 const defaultActive = ref(route.path);
 
 // 是否折叠
-const isCollapse = computed(() => !(userStore.asideWidth === "250px"));
+const isCollapse = computed(
+  () => !(userStore.asideWidth === global.CARAMBOLA_MENU_WIDTH)
+);
 
 const asideMenus = computed(() => userStore.asideMenus);
 

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { login, getinfo } from '~/api/manager'
 import { setToken, removeToken } from '~/composables/auth'
+import { global } from '~/init/global'
 
 export const useUserStore = defineStore(
     'user',
@@ -10,7 +11,7 @@ export const useUserStore = defineStore(
         const user = ref({})
 
         // 侧边宽度
-        const asideWidth = ref('250px')
+        const asideWidth = ref(global.CARAMBOLA_MENU_WIDTH)
 
         // 菜单
         const menus = ref([])
@@ -27,7 +28,7 @@ export const useUserStore = defineStore(
 
         // 展开/缩起侧边
         function handleAsideWidth() {
-            asideWidth.value = asideWidth.value === '250px' ? '64px' : '250px'
+            asideWidth.value = asideWidth.value === global.CARAMBOLA_MENU_WIDTH ? '64px' : global.CARAMBOLA_MENU_WIDTH
         }
 
         // 设置菜单
@@ -71,7 +72,6 @@ export const useUserStore = defineStore(
         async function loginUser({ username, password }) {
             try {
                 const res = await login(username, password)
-                console.log('res', res)
                 setToken(res.token)
                 return res
             } catch (err) {

@@ -12,6 +12,7 @@ import TaskMana from '~/pages/task/task_mana/index.vue';
 import ClientMana from '~/pages/task/client_mana/index.vue';
 import Script from '~/pages/task/script/index.vue';
 import DBMana from '~/pages/task/db_mana/index.vue';
+import TaskLog from '~/pages/task/task_mana/task_log.vue';
 
 import User from '~/pages/system/user/index.vue';
 import Role from '~/pages/system/role/index.vue';
@@ -36,6 +37,7 @@ const asyncRoutes = [
     { path: "/task/client_mana", name: "client_mana", component: ClientMana, meta: { title: "客户端管理" } },
     { path: "/task/db_mana", name: "db_mana", component: DBMana, meta: { title: "数据库管理" } },
     { path: "/task/script", name: "script", component: Script, meta: { title: "脚本编辑器" } },
+    { path: "/task/task_log", name: "task_log", component: TaskLog, meta: { title: "执行记录查询" } },
 
     // 系统管理
     { path: "/system/user", name: "user", component: User, meta: { title: "用户管理" } },

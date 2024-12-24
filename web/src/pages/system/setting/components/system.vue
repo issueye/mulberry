@@ -35,6 +35,7 @@
 import { ref, reactive, onMounted } from "vue";
 
 import { apiGetSystemSettings, apiSetSystemSettings } from "~/api/settings";
+import { toast } from '~/composables/util'
 
 const disabled = ref(true);
 
@@ -66,5 +67,6 @@ const handleSubmitClick = async () => {
   ];
 
   await apiSetSystemSettings(datas);
+  toast('保存成功')
 };
 </script>

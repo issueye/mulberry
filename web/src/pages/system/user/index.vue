@@ -142,6 +142,7 @@ import {
 import { apiGetRoleList } from "~/api/role";
 
 import { ElMessageBox, ElMessage } from "element-plus";
+import { toast } from '~/composables/util'
 
 import { ref, reactive, computed, onMounted } from "vue";
 
@@ -346,6 +347,7 @@ const addData = async () => {
     await apiAddUser(formData);
     loading.value = false;
     dialog.visible = false;
+    toast('添加用户成功')
     handleQuery();
   } catch (error) {
     loading.value = false;
@@ -361,6 +363,7 @@ const editData = async () => {
     await apiUpdateUser(formData);
     loading.value = false;
     dialog.visible = false;
+    toast('修改用户成功')
     handleQuery();
   } catch (error) {
     loading.value = false;
@@ -389,7 +392,8 @@ const handleDeleteClick = (value) => {
   }).then(
     async () => {
       const data = await apiDeleteUser(value.id);
-      console.log("data", data);
+      // console.log("data", data);
+      toast('删除用户成功')
       handleQuery();
     },
     () => {
